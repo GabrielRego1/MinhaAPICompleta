@@ -5,6 +5,7 @@ using DevIO.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace DevIO.Api.Controllers
@@ -37,6 +38,13 @@ namespace DevIO.Api.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
+            var imgNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
+
+            if (!UploadArquivo(produtoViewModel.ImagemUpload, imgNome))
+                return CustomResponse(produtoViewModel);
+
+            produtoViewModel.Imagem = imgNome;
+
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
             return CustomResponse(produtoViewModel);
@@ -65,6 +73,37 @@ namespace DevIO.Api.Controllers
             await _produtoService.Remover(id);
 
             return CustomResponse(produtoViewModel);
+        }
+
+
+        private bool UploadArquivo(string arquivo, string imgNome)
+        {
+            if (string.IsNullOrEmpty(arquivo))
+            {
+                NotificarErro("Forneça uma imagem para este produto");
+                return false;
+            }
+
+
+            var imageDataByteArray = Convert.FromBase64String(arquivo);
+
+
+            if (string.IsNullOrEmpty(arquivo))
+            {
+                NotificarErro("Forneça uma imagem para este produto");
+                return false;
+            }
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/app/demo-webapi/src/assets", imgNome);
+
+            if (System.IO.File.Exists(filePath))
+            {
+                NotificarErro("Já existe um arquivo com este nome");
+                return false;
+            }
+            System.IO.File.WriteAllBytes(filePath, imageDataByteArray);
+            return true;
+
         }
 
 
