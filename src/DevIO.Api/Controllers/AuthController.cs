@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,7 +88,7 @@ namespace DevIO.Api.Controllers
         }
 
 
-        private async Task<string> GerarJwt(string email)
+        private async Task<LoginResponseViewModel> GerarJwt(string email)
         {
 
             var user = await _userManager.FindByNameAsync(email);
@@ -123,7 +124,18 @@ namespace DevIO.Api.Controllers
             });
 
             var encondedToken = tokenHandler.WriteToken(token);
-            return encondedToken;
+            var response = new LoginResponseViewModel
+            {
+                AccessToken = encondedToken,
+                ExpiresIn = TimeSpan.FromHours(_appSettings.ExpiracaoHoras).TotalSeconds,
+                User = new UserTokenViewModel
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Claims = claims.Select(c => new ClaimViewModel { Type = c.Type, Value = c.Value })
+                }
+            };
+            return response;
         }
 
 
