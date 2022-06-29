@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 
 namespace DevIO.Api.Configuration
 {
@@ -27,6 +28,17 @@ namespace DevIO.Api.Configuration
                         AllowAnyMethod().
                         AllowCredentials();
                     });
+
+                options.AddPolicy("Production",
+                   builder =>
+                   {
+                       builder.WithOrigins("https://meudominioprod.com.br")
+                       .WithMethods("GET")
+                       .SetIsOriginAllowedToAllowWildcardSubdomains()
+                       //.WithHeaders(HeaderNames.ContentType,"x-custom-header")
+                       .AllowAnyMethod();
+                   });
+
             });
 
             return services;
@@ -35,9 +47,6 @@ namespace DevIO.Api.Configuration
         public static IApplicationBuilder UseMvcConfiguration(this IApplicationBuilder app)
         {
             app.UseHttpsRedirection();
-
-            app.UseCors("Development");
-
             app.UseMvc();
             return app;
         }
