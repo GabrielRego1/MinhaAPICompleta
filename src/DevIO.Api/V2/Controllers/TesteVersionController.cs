@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevIO.Api.V2.Controllers
 {
-    [ApiVersion("2.0", Deprecated = true)]
+    [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/teste")]
     public class TesteVersionController : MainController
     {
