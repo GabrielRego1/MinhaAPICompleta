@@ -1,6 +1,7 @@
 ﻿using DevIO.Api.Controllers;
 using DevIO.Business.Intefaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace DevIO.Api.V2.Controllers
 {
@@ -16,6 +17,8 @@ namespace DevIO.Api.V2.Controllers
         [HttpGet]
         public string Valor()
         {
+            throw new Exception("Eu sou um teste de loggin no Elmah.io! :)");
+
             return "Sou a V2";
         }
 
