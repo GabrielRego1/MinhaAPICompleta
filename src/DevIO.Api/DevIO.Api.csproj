@@ -18,6 +18,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.mvc.versioning" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.mvc.versioning.apiexplorer" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2" PrivateAssets="All" />
   </ItemGroup>
 
