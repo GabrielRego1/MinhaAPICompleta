@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,11 @@ namespace DevIO.Api
 
             services.WebApiConfig();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Minha API Completa", Version = "v1" });
+            });
+
             services.ResolveDependencies();
         }
 
@@ -60,6 +66,13 @@ namespace DevIO.Api
             app.UseAuthentication();
 
             app.UseMvcConfiguration();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Minha API Completa v1");
+            });
 
         }
     }
