@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -6,6 +7,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DevIO.Api.Configuration
 {
@@ -41,6 +43,9 @@ namespace DevIO.Api.Configuration
 
         public static IApplicationBuilder UseSwaggerConfig(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
+            //Validacao de login para visualizar a documentação
+            //app.UseMiddleware<SwaggerAuthorizeMiddleware>();
+
             app.UseSwagger();
 
             app.UseSwaggerUI(options =>
@@ -88,8 +93,6 @@ namespace DevIO.Api.Configuration
             }
         }
     }
-
-
     public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
     {
         readonly IApiVersionDescriptionProvider provider;
@@ -124,4 +127,23 @@ namespace DevIO.Api.Configuration
             return info;
         }
     }
+    public class SwaggerAuthorizeMiddleware
+    {
+        private readonly RequestDelegate _next;
+        public SwaggerAuthorizeMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        public async Task Invoke(HttpContext context)
+        {
+            if (context.Request.Path.StartsWithSegments("/swagger") && !context.User.Identity.IsAuthenticated)
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }
+            await _next.Invoke(context);
+        }
+    }
+
 }
