@@ -1,5 +1,8 @@
 ## Sobre o projeto:
-ASP.NET WebApi Core utilizada em um sistema de gestão de Fornecedores e seus respectivos produtos, as requisicoes são validadas através JWT e ASP.NET Identity Core. O monitoramento da saúde da aplicação pode ser acessado via um painel de controles do Elmah.IO. Toda documentação foi feita através do Swagger UI.
+ASP.NET WebApi Core utilizada em um sistema de gestão de Fornecedores e seus respectivos Produtos.
+As requisições são validadas através JWT e ASP.NET Identity Core. 
+O monitoramento da saúde da aplicação pode ser acessado via um painel de controles do Elmah.IO.
+Toda documentação foi feita através do Swagger UI.
 
 ## Tecnologias utilizadas no projeto:
 
