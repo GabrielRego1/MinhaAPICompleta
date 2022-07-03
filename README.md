@@ -16,7 +16,7 @@ Toda documentação foi feita através do Swagger UI.
 - Elmah.IO
 - HealthChecks
 
-## Arquiteura:
+## Arquitetura:
 - Onion Architecture
 - Repository
 - Unit of work
