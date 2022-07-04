@@ -11,6 +11,7 @@ Toda documentação foi feita através do Swagger UI.
 - Entity FrameWork Core
 - Entity Framework Migrations
 - ASP.NET Identity Core
+- AutoMapper
 - Swagger UI com suporte a JWT
 - Injeção de Dependencias nativa do .NET Core
 - Elmah.IO
